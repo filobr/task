@@ -10,6 +10,7 @@ height: 100vh;
 background: #D9D9D9;
 display: flex;
 justify-content: center;
+align-items: center;
 `
 
 const Card = styled.div`
@@ -186,14 +187,12 @@ export const Main: FC = () => {
 
     const [characterId, setCharacterId] = useState(1);
     const [characterData, setCharacterData] = useState<characterDataType | null>(null);
-    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
           const response = await fetch(`https://swapi.dev/api/people/${characterId}/`
           );
           if (!response.ok) {
-            setIsError(true);
             throw new Error(
               `This is an HTTP error: The status is ${response.status}`
             );
@@ -203,6 +202,12 @@ export const Main: FC = () => {
         };
         getData();
       }, [characterId]);
+
+      const onNextButtonClick = () => {
+        if (characterId === 83) setCharacterId(1);
+        else if (characterId === 16) setCharacterId(18);
+        else setCharacterId(characterId + 1);
+      }
 
     
     return (
@@ -228,7 +233,7 @@ export const Main: FC = () => {
                         <ProfileText>Birth year: {characterData.birth_year}</ProfileText>
                         <ProfileText>Eye color: {characterData.eye_color}</ProfileText>
                     </Profile>
-                    <NextButton onClick={() => setCharacterId(characterId + 1)}>next profiles</NextButton>
+                    <NextButton onClick={onNextButtonClick}>next profiles</NextButton>
                 </CardMainContent>
             </Card>
             }
