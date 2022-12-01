@@ -1,8 +1,8 @@
-import { FC } from "react";
-import styled from "styled-components";
+import { FC, useEffect, useState } from "react";
+import styled, {keyframes} from "styled-components";
 import image from "assets/image.jpg";
 import icon from "assets/Icon.svg";
-import tick from "assets/Tick.svg"
+import tick from "assets/Tick.svg";
 
 export const MainContainer = styled.div`
 width: 100vw;
@@ -93,13 +93,13 @@ width: 60%;
 
 const ProfileDetailsSide = styled.div`
 display: flex;
-width: 15%;
+width: 10%;
 justify-content: center;
 `
 
 const ProfileDetailsCenter = styled.div`
 display: flex;
-width: 70%;
+width: 90%;
 justify-content: center;
 `
 
@@ -107,7 +107,7 @@ const ProfileName = styled.span`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 800;
-font-size: 50px;
+font-size: 30px;
 line-height: 61px;
 text-align: center;
 
@@ -145,10 +145,70 @@ padding: 20px;
 cursor: pointer;
 `
 
+const spin = keyframes`
+    0% { 
+        transform: rotate(0deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+`;
+
+export const Spinner = styled.div`
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: ${spin} 2s linear infinite;
+`;
+
+
 export const Main: FC = () => {
+    interface characterDataType {
+        name: string,
+        birth_year: string,
+        eye_color: string,
+        gender: string,
+        hair_color: string,
+        height: string,
+        mass: string,
+        skin_color: string,
+        homeworld: string,
+        films: [],
+        species: [],
+        starships: [],
+        vehicles: [],
+        url: string,
+        created: string,
+        edited: string,
+    }
+
+    const [characterId, setCharacterId] = useState(1);
+    const [characterData, setCharacterData] = useState<characterDataType | null>(null);
+    const [isError, setIsError] = useState(false);
+
+    useEffect(() => {
+        const getData = async () => {
+          const response = await fetch(`https://swapi.dev/api/people/${characterId}/`
+          );
+          if (!response.ok) {
+            setIsError(true);
+            throw new Error(
+              `This is an HTTP error: The status is ${response.status}`
+            );
+          }
+          const data = await response.json();
+        setCharacterData(data);
+        };
+        getData();
+      }, [characterId]);
+
+    
     return (
         <MainContainer>
-            <Card>
+            {!characterData ? <Spinner /> : 
+            <Card> 
                 <CardTopContent>
                     <NameLabel>Filip Obracaj</NameLabel>
                     <FormButton>formularz rejestracyjny</FormButton>
@@ -157,21 +217,21 @@ export const Main: FC = () => {
                     <Profile>
                         <ProfileImage />
                         <ProfileDetails>
-                            <ProfileDetailsSide />
                             <ProfileDetailsCenter>
-                                <ProfileName>Name</ProfileName>
+                                <ProfileName>{characterData.name}</ProfileName>
                             </ProfileDetailsCenter>
                             <ProfileDetailsSide>
                                 <Icon src={icon} />
                                 <Icon src={tick} />
                             </ProfileDetailsSide>
                         </ProfileDetails>
-                        <ProfileText>Age:</ProfileText>
-                        <ProfileText>Eye color:</ProfileText>
+                        <ProfileText>Birth year: {characterData.birth_year}</ProfileText>
+                        <ProfileText>Eye color: {characterData.eye_color}</ProfileText>
                     </Profile>
-                    <NextButton>next profiles</NextButton>
+                    <NextButton onClick={() => setCharacterId(characterId + 1)}>next profiles</NextButton>
                 </CardMainContent>
             </Card>
+            }
         </MainContainer>
     )
 }
