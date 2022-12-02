@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import styled, {keyframes} from "styled-components";
-import image from "assets/image.jpg";
 import icon from "assets/Icon.svg";
 import tick from "assets/Tick.svg";
 
@@ -74,11 +73,15 @@ flex-direction: column;
 align-items: center;
 `
 
-const ProfileImage = styled.div`
+type ProfileImageProps = {
+    url: string;
+}
+
+const ProfileImage = styled.div<ProfileImageProps>`
 margin-top: 100px;
 width: 300px;
 height: 200px;
-background-image: url(${image});
+background-image: url(${props => props.url});
 background-position: center; 
 background-repeat: no-repeat; 
 background-size: cover; 
@@ -187,10 +190,11 @@ export const Main: FC = () => {
 
     const [characterId, setCharacterId] = useState(1);
     const [characterData, setCharacterData] = useState<characterDataType | null>(null);
+    const [image, setImage] = useState("");
 
     useEffect(() => {
         const getData = async () => {
-          const response = await fetch(`https://swapi.dev/api/people/${characterId}/`
+          const response = await fetch(`https://swapi.py4e.com/api/people/${characterId}/`
           );
           if (!response.ok) {
             throw new Error(
@@ -198,9 +202,12 @@ export const Main: FC = () => {
             );
           }
           const data = await response.json();
+        
         setCharacterData(data);
         };
         getData();
+        const rand = Math.random() * 10000; 
+        setImage(`https://picsum.photos/534/383?${rand}`);
       }, [characterId]);
 
       const onNextButtonClick = () => {
@@ -220,7 +227,7 @@ export const Main: FC = () => {
                 </CardTopContent>
                 <CardMainContent>
                     <Profile>
-                        <ProfileImage />
+                        <ProfileImage url={image}/>
                         <ProfileDetails>
                             <ProfileDetailsCenter>
                                 <ProfileName>{characterData.name}</ProfileName>
