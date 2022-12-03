@@ -2,23 +2,21 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 
 import { Card, MainContainer } from "components/Main";
+import {
+  flexDisplay,
+  setButtonFont,
+  setInterFont,
+  setLatoFont,
+} from "helpers/helpers";
 
 const TitleContainer = styled.div`
-  width: 70%;
-  display: flex;
-  flex-direction: column;
+  ${flexDisplay("70%", "auto", "column")}
   align-items: flex-end;
   margin-top: 50px;
 `;
 
 const Title = styled.span`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 165%;
-  letter-spacing: 0.15em;
-  color: #000000;
+  ${setInterFont(20)};
   padding: 10px 0;
 `;
 
@@ -29,65 +27,40 @@ const TitleBox = styled.div`
 `;
 
 const Form = styled.form`
-  width: 70%;
-  display: flex;
-  flex-direction: column;
+  ${flexDisplay("70%", "auto", "column")}
   align-items: flex-end;
 `;
 
 const FormLabel = styled.label`
   width: 100%;
   text-align: left;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 165%;
-  color: #000000;
   margin-top: 30px;
+  ${setInterFont(20)};
 `;
 
 const FormInput = styled.input<{ isError?: boolean }>`
   width: 100%;
   padding: 5px;
   border: none;
-  border-bottom: 2px solid ${props => (props.isError ? "#F00000" : "#000000")};
+  border-bottom: 2px solid ${props => (props.isError ? "#FF0000" : "#000000")};
   background-color: #ffffff;
   outline: none;
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  resize: none;
-
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 120%;
-  color: #000000;
+  ${setLatoFont(16)};
 `;
 
 const FormButton = styled.input`
-  width: 224.3px;
+  width: 50%;
   height: 54.88px;
-
   background: #071594;
   box-shadow: 10px 4px 4px rgba(0, 0, 0, 0.75);
   border-radius: 20px;
-
-  font-family: "Lato";
-  font-style: italic;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 100%;
-  text-align: center;
-  color: #ffffff;
+  ${setButtonFont()};
   cursor: pointer;
+  margin: 0 25%;
 `;
 
 const AgreementContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
+  ${flexDisplay("100%", "auto", "row")}
   align-items: center;
   gap: 10px;
   margin: 30px 0;

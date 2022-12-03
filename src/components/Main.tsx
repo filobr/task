@@ -4,39 +4,33 @@ import styled, { keyframes } from "styled-components";
 
 import icon from "assets/Icon.svg";
 import tick from "assets/Tick.svg";
+import {
+  flexDisplay,
+  setButtonFont,
+  setInterFont,
+  setLatoFont,
+} from "helpers/helpers";
 
 export const MainContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
+  ${flexDisplay("100vw", "100vh", "row")};
   background: #d9d9d9;
-  display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 export const Card = styled.div`
-  width: 100vh;
-  height: 100vh;
+  ${flexDisplay("100vh", "100vh", "column")};
   background: #ffffff;
-  display: flex;
-  flex-direction: column;
   align-items: center;
 `;
 
 const CardTopContent = styled.div`
-  width: 96%;
-  height: 15%;
-  display: flex;
+  ${flexDisplay("96%", "15%", "row")};
   justify-content: space-between;
   padding: 2%;
 `;
 const NameLabel = styled.span`
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 100%;
-  color: #000000;
+  ${setLatoFont(30)};
 `;
 
 const FormButton = styled.button`
@@ -44,35 +38,22 @@ const FormButton = styled.button`
   height: 90px;
   background: #40483a;
   box-shadow: 10px 4px 4px rgba(0, 0, 0, 0.75);
-  border-radius: 20px;
-  font-family: "Lato";
-  font-style: italic;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 100%;
-  color: #ffffff;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  ${setButtonFont()};
   cursor: pointer;
 `;
 
 const CardMainContent = styled.div`
-  width: 100%;
-  height: 85%;
-  display: flex;
-  flex-direction: column;
+  ${flexDisplay("100%", "85%", "column")};
   align-items: center;
 `;
 
 const Profile = styled.div`
+  ${flexDisplay("500px", "450px", "column")};
   margin-bottom: 50px;
-  width: 500px;
-  height: 450px;
   background: #917878;
   border-radius: 500px 60px 300px 100px;
   backdrop-filter: blur(280px);
   filter: drop-shadow(12px 4px 4px rgba(0, 0, 0, 0.6));
-  display: flex;
-  flex-direction: column;
   align-items: center;
 `;
 
@@ -93,32 +74,23 @@ const ProfileImage = styled.div<ProfileImageProps>`
 
 const ProfileDetails = styled.div`
   margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  width: 60%;
+  ${flexDisplay("60%", "auto", "row")};
 `;
 
 const ProfileDetailsSide = styled.div`
-  display: flex;
-  width: 10%;
+  ${flexDisplay("10%", "auto", "row")};
   justify-content: center;
 `;
 
 const ProfileDetailsCenter = styled.div`
-  display: flex;
-  width: 90%;
+  ${flexDisplay("90%", "auto", "row")}
   justify-content: center;
 `;
 
 const ProfileName = styled.span`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 30px;
-  line-height: 61px;
-  text-align: center;
-
-  color: #000000;
+  ${setInterFont(24)};
+  line-height: 100%;
+  letter-spacing: 0;
 `;
 
 const Icon = styled.img`
@@ -142,12 +114,7 @@ const NextButton = styled.button`
   background: #35660e;
   box-shadow: 10px 4px 4px rgba(0, 0, 0, 0.75);
   border-radius: 20px;
-  font-family: "Lato";
-  font-style: italic;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 100%;
-  color: #ffffff;
+  ${setButtonFont}
   padding: 20px;
   cursor: pointer;
 `;
