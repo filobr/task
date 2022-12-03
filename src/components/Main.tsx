@@ -38,6 +38,7 @@ const FormButton = styled.button`
   height: 90px;
   background: #40483a;
   box-shadow: 10px 4px 4px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
   ${setButtonFont()};
   cursor: pointer;
 `;

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { Card, MainContainer } from "components/Main";
@@ -38,7 +38,7 @@ const FormLabel = styled.label`
   ${setInterFont(20)};
 `;
 
-const FormInput = styled.input<{ isError?: boolean }>`
+const FormInput = styled.input<{ isError?: string }>`
   width: 100%;
   padding: 5px;
   border: none;
@@ -60,7 +60,7 @@ const FormButton = styled.input`
 `;
 
 const AgreementContainer = styled.div`
-  ${flexDisplay("100%", "auto", "row")}
+  ${flexDisplay("100%", "auto", "row")};
   align-items: center;
   gap: 10px;
   margin: 30px 0;
@@ -72,53 +72,71 @@ const FormCheckbox = styled.input`
 `;
 
 const FormCheckboxLabel = styled.label`
+  ${setInterFont(16)};
   text-align: left;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 165%;
-  color: #000000;
 `;
 
 const FormAlert = styled.span`
+  ${setInterFont(12)};
   text-align: right;
-  font-family: "Inter";
-  font-style: italic;
-  font-weight: 300;
-  font-size: 14px;
   color: #ff0000;
 `;
 
 export const FormPage: FC = () => {
-  const [inputNumber, setInputNumber] = useState("");
-  const [inputEmail, setInputEmail] = useState("");
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isNumberValid, setIsNumberValid] = useState(true);
-  const [isCheckboxError, setIsCheckboxError] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
+  const initialValues = { email: "", number: "", agree: false };
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState(initialValues);
+  const [isSubmit, setIsSubmit] = useState(false);
 
-  const checkNumber = () =>
-    inputNumber.match(/^\(?([0-9]{3})\)?[- ]?([0-9]{3})[- ]?([0-9]{3})$/)
-      ? true
-      : false;
+  useEffect(() => {
+    if (
+      !formErrors.number &&
+      !formErrors.email &&
+      !formErrors.agree &&
+      isSubmit
+    ) {
+      console.log("mozna wysylac");
+    }
+  }, [formErrors]);
 
-  const checkEmail = () =>
-    inputEmail.match(
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): React.ChangeEventHandler<HTMLInputElement> | void => {
+    const { name, value, checked } = event.target;
+    setFormValues({
+      ...formValues,
+      [name]: name === "agree" ? checked : value,
+    });
+  };
+
+  const validateForm = (values: {
+    email: string;
+    number: string;
+    agree: boolean;
+  }) => {
+    const errors = { email: "", number: "", agree: false };
+
+    if (
+      !values.email.match(
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      )
     )
-      ? true
-      : false;
+      errors.email = "Nieprawidłowy format adresu e-mail";
+    if (
+      !values.number.match(/^\(?([0-9]{3})\)?[- ]?([0-9]{3})[- ]?([0-9]{3})$/)
+    )
+      errors.number = "Nieprawidłowy numer telefonu";
+    if (!values.agree) errors.agree = true;
+
+    return errors;
+  };
 
   const onFormSubmit = (
-    event: React.ChangeEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>
   ): React.FormEventHandler<HTMLFormElement> | void => {
     event.preventDefault();
-    setIsEmailValid(checkEmail());
-    setIsNumberValid(checkNumber());
-    setIsCheckboxError(!isCheckboxChecked);
-    // setIsFormValid(isEmailValid && isNumberValid && !isCheckboxError);
+    setFormErrors(validateForm(formValues));
+    setIsSubmit(true);
   };
 
   return (
@@ -133,40 +151,41 @@ export const FormPage: FC = () => {
           <FormInput type="text" name="login" id="login" required />
           <FormLabel htmlFor="password">Hasło:</FormLabel>
           <FormInput type="text" name="password" id="password" required />
-          <FormLabel htmlFor="e-mail">E-mail:</FormLabel>
+          <FormLabel htmlFor="email">E-mail:</FormLabel>
           <FormInput
             type="text"
-            name="e-mail"
-            id="e-mail"
-            onChange={event => setInputEmail(event.target.value)}
-            value={inputEmail}
-            isError={!isEmailValid}
+            name="email"
+            id="email"
+            onChange={handleChange}
+            value={formValues.email}
+            isError={formErrors.email}
           />
-          {!isEmailValid && (
+          {formErrors.email && (
             <FormAlert>Nieprawidłowy format adresu e-mail</FormAlert>
           )}
-          <FormLabel htmlFor="phone-number">Numer telefonu:</FormLabel>
+          <FormLabel htmlFor="number">Numer telefonu:</FormLabel>
           <FormInput
             type="tel"
-            name="phone-number"
-            id="phone-number"
-            onChange={event => setInputNumber(event.target.value)}
-            value={inputNumber}
-            isError={!isNumberValid}
+            name="number"
+            id="number"
+            onChange={handleChange}
+            value={formValues.number}
+            isError={formErrors.number}
           />
-          {!isNumberValid && (
+          {formErrors.number && (
             <FormAlert>Nieprawidłowy numer telefonu</FormAlert>
           )}
           <AgreementContainer>
             <FormCheckbox
               type="checkbox"
               id="agree"
-              onChange={event => setIsCheckboxChecked(event.target.checked)}
+              name="agree"
+              onChange={handleChange}
             />
             <FormCheckboxLabel htmlFor="agree">
               Akceptuję regulamin
             </FormCheckboxLabel>
-            {isCheckboxError && (
+            {formErrors.agree && (
               <FormAlert>Wymagana akceptacja regulaminu</FormAlert>
             )}
           </AgreementContainer>
