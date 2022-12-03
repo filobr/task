@@ -22,7 +22,7 @@ flex-direction: column;
 
 const CardTopContent = styled.div`
 width: 96%;
-height: 20%;
+height: 15%;
 display: flex;
 justify-content: space-between;
 padding: 2%;
@@ -54,7 +54,7 @@ cursor: pointer;
 
 const CardMainContent = styled.div`
 width: 100%;
-height: 80%;
+height: 85%;
 display: flex;
 flex-direction: column;
 align-items: center;
