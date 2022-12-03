@@ -89,14 +89,27 @@ export const FormPage: FC = () => {
   const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
+    const postData = async () => {
+      const rawResponse = await fetch("https://example.com", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      });
+      const content = await rawResponse.json();
+
+      console.log(content);
+    };
+
     if (
       !formErrors.number &&
       !formErrors.email &&
       !formErrors.agree &&
       isSubmit
-    ) {
-      console.log("mozna wysylac");
-    }
+    )
+      postData();
   }, [formErrors]);
 
   const handleChange = (

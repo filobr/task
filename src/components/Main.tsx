@@ -158,6 +158,13 @@ export const Main: FC = () => {
     edited: string;
   }
 
+  interface starWarsDataType {
+    name: string;
+    vehicles: [];
+    created: string;
+  }
+
+  const [starWarsData, setStarWarsData] = useState<starWarsDataType[]>([]);
   const [characterId, setCharacterId] = useState(1);
   const [characterData, setCharacterData] = useState<characterDataType | null>(
     null
@@ -175,7 +182,14 @@ export const Main: FC = () => {
         );
       }
       const data = await response.json();
-
+      setStarWarsData([
+        ...starWarsData,
+        {
+          name: data.name,
+          vehicles: data.vehicles,
+          created: data.created,
+        },
+      ]);
       setCharacterData(data);
     };
     getData();
