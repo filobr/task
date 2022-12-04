@@ -8,6 +8,7 @@ import {
   setInterFont,
   setLatoFont,
 } from "helpers/helpers";
+import { starWarsDataType } from "App";
 
 const TitleContainer = styled.div`
   ${flexDisplay("70%", "auto", "column")}
@@ -82,7 +83,11 @@ const FormAlert = styled.span`
   color: #ff0000;
 `;
 
-export const FormPage: FC = () => {
+interface FormProps {
+  starWarsData: starWarsDataType[];
+}
+
+export const FormPage: FC<FormProps> = ({ starWarsData }) => {
   const initialValues = { email: "", number: "", agree: false };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);

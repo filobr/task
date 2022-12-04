@@ -10,6 +10,7 @@ import {
   setInterFont,
   setLatoFont,
 } from "helpers/helpers";
+import { starWarsDataType } from "App";
 
 export const MainContainer = styled.div`
   ${flexDisplay("100vw", "100vh", "row")};
@@ -138,7 +139,11 @@ export const Spinner = styled.div`
   animation: ${spin} 2s linear infinite;
 `;
 
-export const Main: FC = () => {
+interface MainProps {
+  setData: (param: starWarsDataType) => void;
+}
+
+export const Main: FC<MainProps> = ({ setData }) => {
   interface characterDataType {
     name: string;
     birth_year: string;
@@ -158,13 +163,6 @@ export const Main: FC = () => {
     edited: string;
   }
 
-  interface starWarsDataType {
-    name: string;
-    vehicles: [];
-    created: string;
-  }
-
-  const [starWarsData, setStarWarsData] = useState<starWarsDataType[]>([]);
   const [characterId, setCharacterId] = useState(1);
   const [characterData, setCharacterData] = useState<characterDataType | null>(
     null
@@ -182,14 +180,11 @@ export const Main: FC = () => {
         );
       }
       const data = await response.json();
-      setStarWarsData([
-        ...starWarsData,
-        {
-          name: data.name,
-          vehicles: data.vehicles,
-          created: data.created,
-        },
-      ]);
+      setData({
+        name: data.name,
+        vehicles: data.vehicles,
+        created: data.created,
+      });
       setCharacterData(data);
     };
     getData();
