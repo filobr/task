@@ -13,13 +13,16 @@ export interface starWarsDataType {
 const App: FC = () => {
   const [starWarsData, setStarWarsData] = useState<starWarsDataType[]>([]);
 
-  const setData = (input: { name: string; vehicles: []; created: string }) =>
-    setStarWarsData([...starWarsData, input]);
+  const handleNewStarWarsData = (data: starWarsDataType) =>
+    setStarWarsData([...starWarsData, data]);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main setData={setData} />} />
+        <Route
+          path="/"
+          element={<Main handleNewStarWarsData={handleNewStarWarsData} />}
+        />
         <Route path="form" element={<FormPage starWarsData={starWarsData} />} />
       </Routes>
     </BrowserRouter>

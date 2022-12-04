@@ -97,11 +97,7 @@ export const FormPage: FC<FormProps> = ({ starWarsData }) => {
     const postData = async () => {
       const rawResponse = await fetch("https://example.com", {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formValues),
+        body: JSON.stringify({ formValues, starWarsData }),
       });
       const content = await rawResponse.json();
 

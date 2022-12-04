@@ -140,10 +140,10 @@ export const Spinner = styled.div`
 `;
 
 interface MainProps {
-  setData: (param: starWarsDataType) => void;
+  handleNewStarWarsData: (param: starWarsDataType) => void;
 }
 
-export const Main: FC<MainProps> = ({ setData }) => {
+export const Main: FC<MainProps> = ({ handleNewStarWarsData }) => {
   interface characterDataType {
     name: string;
     birth_year: string;
@@ -170,7 +170,7 @@ export const Main: FC<MainProps> = ({ setData }) => {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    const getData = async () => {
+    const fetchStarWarsData = async () => {
       const response = await fetch(
         `https://swapi.py4e.com/api/people/${characterId}/`
       );
@@ -180,14 +180,14 @@ export const Main: FC<MainProps> = ({ setData }) => {
         );
       }
       const data = await response.json();
-      setData({
+      handleNewStarWarsData({
         name: data.name,
         vehicles: data.vehicles,
         created: data.created,
       });
       setCharacterData(data);
     };
-    getData();
+    fetchStarWarsData();
     const rand = Math.random() * 10000;
     setImage(`https://picsum.photos/534/383?${rand}`);
   }, [characterId]);
