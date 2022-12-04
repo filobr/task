@@ -88,7 +88,13 @@ interface FormProps {
 }
 
 export const FormPage: FC<FormProps> = ({ starWarsData }) => {
-  const initialValues = { email: "", number: "", agree: false };
+  const initialValues = {
+    login: "",
+    password: "",
+    email: "",
+    number: "",
+    agree: false,
+  };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -124,11 +130,19 @@ export const FormPage: FC<FormProps> = ({ starWarsData }) => {
   };
 
   const validateForm = (values: {
+    login: string;
+    password: string;
     email: string;
     number: string;
     agree: boolean;
   }) => {
-    const errors = { email: "", number: "", agree: false };
+    const errors = {
+      login: "",
+      password: "",
+      email: "",
+      number: "",
+      agree: false,
+    };
 
     if (
       !values.email.match(
@@ -162,9 +176,23 @@ export const FormPage: FC<FormProps> = ({ starWarsData }) => {
         </TitleContainer>
         <Form onSubmit={onFormSubmit}>
           <FormLabel htmlFor="login">Login:</FormLabel>
-          <FormInput type="text" name="login" id="login" required />
+          <FormInput
+            type="text"
+            name="login"
+            id="login"
+            onChange={handleChange}
+            value={formValues.login}
+            required
+          />
           <FormLabel htmlFor="password">Hasło:</FormLabel>
-          <FormInput type="text" name="password" id="password" required />
+          <FormInput
+            type="text"
+            name="password"
+            id="password"
+            onChange={handleChange}
+            value={formValues.password}
+            required
+          />
           <FormLabel htmlFor="email">E-mail:</FormLabel>
           <FormInput
             type="text"
