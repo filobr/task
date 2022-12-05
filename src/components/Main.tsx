@@ -9,6 +9,7 @@ import {
   setButtonFont,
   setInterFont,
   setLatoFont,
+  width,
 } from "helpers/helpers";
 import { starWarsDataType } from "App";
 
@@ -23,6 +24,9 @@ export const Card = styled.div`
   ${flexDisplay("100vh", "100vh", "column")};
   background: #ffffff;
   align-items: center;
+  ${width.tablet} {
+    width: 100vw;
+  } ;
 `;
 
 const CardTopContent = styled.div`
@@ -32,6 +36,9 @@ const CardTopContent = styled.div`
 `;
 const NameLabel = styled.span`
   ${setLatoFont(30)};
+  ${width.mobile} {
+    font-size: 20px;
+  } ;
 `;
 
 const FormButton = styled.button`
@@ -42,6 +49,10 @@ const FormButton = styled.button`
   border-radius: 20px;
   ${setButtonFont()};
   cursor: pointer;
+  ${width.mobile} {
+    width: 120px;
+    height: 40px;
+  } ;
 `;
 
 const CardMainContent = styled.div`
@@ -50,13 +61,21 @@ const CardMainContent = styled.div`
 `;
 
 const Profile = styled.div`
-  ${flexDisplay("500px", "450px", "column")};
+  ${flexDisplay("70%", "70%", "column")};
   margin-bottom: 50px;
   background: #917878;
   border-radius: 500px 60px 300px 100px;
   backdrop-filter: blur(280px);
   filter: drop-shadow(12px 4px 4px rgba(0, 0, 0, 0.6));
   align-items: center;
+  ${width.tablet} {
+    width: 70vw;
+    height: 60vw;
+  }
+  ${width.mobile} {
+    width: 70vw;
+    height: 60vw;
+  }
 `;
 
 type ProfileImageProps = {
@@ -64,9 +83,9 @@ type ProfileImageProps = {
 };
 
 const ProfileImage = styled.div<ProfileImageProps>`
-  margin-top: 100px;
-  width: 300px;
-  height: 200px;
+  margin-top: 15%;
+  width: 60%;
+  height: 50%;
   background-image: url(${props => props.url});
   background-position: center;
   background-repeat: no-repeat;
@@ -77,6 +96,9 @@ const ProfileImage = styled.div<ProfileImageProps>`
 const ProfileDetails = styled.div`
   margin-top: 20px;
   ${flexDisplay("60%", "auto", "row")};
+  ${width.mobile} {
+    margin-top: 5px;
+  }
 `;
 
 const ProfileDetailsSide = styled.div`
@@ -93,23 +115,34 @@ const ProfileName = styled.span`
   ${setInterFont(24)};
   line-height: 100%;
   letter-spacing: 0;
+  ${width.mobile} {
+    font-size: 16px;
+    margin: 5px 0;
+  }
 `;
 
 const Icon = styled.img`
   width: 30px;
   height: 30px;
   margin: 5px;
+  ${width.tablet} {
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+  }
+  ${width.mobile} {
+    width: 15px;
+    height: 15px;
+    margin: 1px;
+  }
 `;
 
 const ProfileText = styled.span`
   width: 50%;
-  font-family: "Inter";
-  font-style: italic;
-  font-weight: 100;
-  font-size: 20px;
-  line-height: 24px;
-  text-align: left;
-  color: #000000;
+  ${setLatoFont(20)};
+  ${width.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const NextButton = styled.button`

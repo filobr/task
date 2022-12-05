@@ -7,6 +7,7 @@ import {
   setButtonFont,
   setInterFont,
   setLatoFont,
+  width,
 } from "helpers/helpers";
 import { starWarsDataType } from "App";
 
@@ -14,11 +15,18 @@ const TitleContainer = styled.div`
   ${flexDisplay("70%", "auto", "column")}
   align-items: flex-end;
   margin-top: 50px;
+  ${width.mobile} {
+    margin-top: 20px;
+    width: 90%;
+  }
 `;
 
 const Title = styled.span`
   ${setInterFont(20)};
   padding: 10px 0;
+  ${width.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -30,6 +38,9 @@ const TitleBox = styled.div`
 const Form = styled.form`
   ${flexDisplay("70%", "auto", "column")}
   align-items: flex-end;
+  ${width.mobile} {
+    width: 90%;
+  }
 `;
 
 const FormLabel = styled.label`
@@ -37,6 +48,9 @@ const FormLabel = styled.label`
   text-align: left;
   margin-top: 30px;
   ${setInterFont(20)};
+  ${width.mobile} {
+    font-size: 14px;
+  }
 `;
 
 const FormInput = styled.input<{ isError?: string }>`
@@ -47,6 +61,9 @@ const FormInput = styled.input<{ isError?: string }>`
   background-color: #ffffff;
   outline: none;
   ${setLatoFont(16)};
+  ${width.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const FormButton = styled.input`
@@ -65,22 +82,35 @@ const AgreementContainer = styled.div`
   align-items: center;
   gap: 10px;
   margin: 30px 0;
+  ${width.mobile} {
+    gap: 5px;
+  }
 `;
 
 const FormCheckbox = styled.input`
   width: 30px;
   height: 30px;
+  ${width.mobile} {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const FormCheckboxLabel = styled.label`
   ${setInterFont(16)};
   text-align: left;
+  ${width.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const FormAlert = styled.span`
   ${setInterFont(12)};
   text-align: right;
   color: #ff0000;
+  ${width.mobile} {
+    font-size: 8px;
+  }
 `;
 
 interface FormProps {
@@ -106,7 +136,6 @@ export const FormPage: FC<FormProps> = ({ starWarsData }) => {
         body: JSON.stringify({ formValues, starWarsData }),
       });
       const content = await rawResponse.json();
-
       console.log(content);
     };
 
