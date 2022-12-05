@@ -25,6 +25,9 @@ font-size: 30px;
 line-height: 100%;
 color: #ffffff;
 text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+${width.mobile} {
+  font-size: 14px;
+}
 `;
 
 type Direction = "row" | "column" | "row-reverse";
@@ -37,3 +40,8 @@ export const flexDisplay = (
 flex-direction: ${direction};
 width: ${width};
 height: ${height};`;
+
+export const width = {
+  mobile: `@media (max-width: 640px)`,
+  tablet: `@media (max-width: 1200px)`,
+};
