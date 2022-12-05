@@ -204,25 +204,24 @@ export const Main: FC<MainProps> = ({ handleNewStarWarsData }) => {
 
   useEffect(() => {
     const fetchStarWarsData = async () => {
-      const response = await fetch(
-        `https://swapi.py4e.com/api/people/${characterId}/`
-      );
-      if (!response.ok) {
-        throw new Error(
-          `This is an HTTP error: The status is ${response.status}`
+      try {
+        const response = await fetch(
+          `https://swapi.py4e.com/api/people/${characterId}/`
         );
+        const data = await response.json();
+        handleNewStarWarsData({
+          name: data.name,
+          vehicles: data.vehicles,
+          created: data.created,
+        });
+        setCharacterData(data);
+        const rand = Math.random() * 10000;
+        setImage(`https://picsum.photos/534/383?${rand}`);
+      } catch (error) {
+        console.log("Something went wrong");
       }
-      const data = await response.json();
-      handleNewStarWarsData({
-        name: data.name,
-        vehicles: data.vehicles,
-        created: data.created,
-      });
-      setCharacterData(data);
     };
     fetchStarWarsData();
-    const rand = Math.random() * 10000;
-    setImage(`https://picsum.photos/534/383?${rand}`);
   }, [characterId]);
 
   const onNextButtonClick = () => {

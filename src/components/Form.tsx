@@ -113,6 +113,28 @@ const FormAlert = styled.span`
   }
 `;
 
+const Alert = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  position: absolute;
+  top: 10px;
+  background: #ecdcdc;
+  width: 60%;
+  height: 100px;
+  box-shadow: 10px 4px 4px rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  padding: 10px;
+  ${setLatoFont(20)};
+  line-height: 120%;
+  text-align: center;
+  color: #ff0000;
+  ${width.tablet} {
+    width: 80%;
+  }
+`;
+
 interface FormProps {
   starWarsData: starWarsDataType[];
 }
@@ -128,15 +150,28 @@ export const FormPage: FC<FormProps> = ({ starWarsData }) => {
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+
+  useEffect(() => {
+    if (isAlertVisible) {
+      const alertTimeout = setTimeout(() => setIsAlertVisible(false), 3000);
+      return () => clearTimeout(alertTimeout);
+    }
+  }, [isAlertVisible]);
 
   useEffect(() => {
     const postData = async () => {
-      const rawResponse = await fetch("https://example.com", {
-        method: "POST",
-        body: JSON.stringify({ formValues, starWarsData }),
-      });
-      const content = await rawResponse.json();
-      console.log(content);
+      try {
+        const rawResponse = await fetch("https://example.com", {
+          method: "POST",
+          body: JSON.stringify({ formValues, starWarsData }),
+        });
+        const content = await rawResponse.json();
+        console.log(content);
+      } catch (error) {
+        console.log({ formValues, starWarsData });
+        setIsAlertVisible(true);
+      }
     };
 
     if (
@@ -263,6 +298,12 @@ export const FormPage: FC<FormProps> = ({ starWarsData }) => {
           <FormButton type="submit" value="zapisz" />
         </Form>
       </Card>
+      {isAlertVisible && (
+        <Alert>
+          Wysyłanie danych nie powiodło się. Dane przygotowane do wysłania
+          możesz zobaczyć w konsoli.
+        </Alert>
+      )}
     </MainContainer>
   );
 };
